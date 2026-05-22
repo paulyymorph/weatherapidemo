@@ -24,8 +24,7 @@ class WeatherServiceFacadeCacheTest {
         RestTemplate restTemplate = mock(RestTemplate.class);
         when(restTemplate.getForObject(anyString(), eq(String.class)))
                 .thenReturn("{\"current\":{\"temperature\":25,\"wind_speed\":12}}")
-                .thenReturn("{\"current\":{\"temperature\":99,\"wind_speed\":99}}")
-;
+                .thenReturn("{\"current\":{\"temperature\":99,\"wind_speed\":99}}");
 
         WeatherServiceFacade facade = new WeatherServiceFacade(
                 restTemplate,
@@ -47,8 +46,7 @@ class WeatherServiceFacadeCacheTest {
         RestTemplate restTemplate = mock(RestTemplate.class);
         when(restTemplate.getForObject(anyString(), eq(String.class)))
                 .thenReturn("{\"current\":{\"temperature\":20,\"wind_speed\":10}}")
-                .thenReturn("{\"current\":{\"temperature\":30,\"wind_speed\":15}}")
-;
+                .thenReturn("{\"current\":{\"temperature\":30,\"wind_speed\":15}}");
 
         WeatherServiceFacade facade = new WeatherServiceFacade(
                 restTemplate,
