@@ -2,6 +2,8 @@ package dev.paulymorph.weatherdemo.service;
 
 import dev.paulymorph.weatherdemo.config.WeatherProvidersProperties;
 import dev.paulymorph.weatherdemo.dto.WeatherResponse;
+import tools.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -46,7 +48,7 @@ public class WeatherServiceFacade implements WeatherService {
 
     private List<ExternalWeatherServiceImpl> buildProviders(
             RestTemplate restTemplate,
-            tools.jackson.databind.ObjectMapper objectMapper,
+            ObjectMapper objectMapper,
             WeatherProvidersProperties weatherProvidersProperties) {
         List<ExternalWeatherServiceImpl> configuredProviders = new ArrayList<>();
 
@@ -62,6 +64,7 @@ public class WeatherServiceFacade implements WeatherService {
                     objectMapper,
                     provider.getName(),
                     provider.getUrlTemplate(),
+                    provider.getApiKey(),
                     provider.getMapping().getTemperature(),
                     provider.getMapping().getWindSpeed()));
         }
@@ -78,9 +81,9 @@ public class WeatherServiceFacade implements WeatherService {
             throw new IllegalArgumentException("Provider '" + provider.getName() + "' urlTemplate must not be blank");
         }
 
-        if (!provider.getUrlTemplate().contains("%s")) {
+        if (!provider.getUrlTemplate().contains("{city}") || !provider.getUrlTemplate().contains("{apiKey}")) {
             throw new IllegalArgumentException(
-                    "Provider '" + provider.getName() + "' urlTemplate must include %s placeholder for city");
+                    "Provider '" + provider.getName() + "' urlTemplate must include {city} and {apiKey} placeholders");
         }
 
         if (provider.getMapping() == null) {

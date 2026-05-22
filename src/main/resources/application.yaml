@@ -9,12 +9,14 @@ weather:
   providers:
     # Ordered list: first provider is primary, next providers are fallbacks.
     - name: weatherstack
-      url-template: ${WEATHER_PROVIDER_1_URL_TEMPLATE:http://api.weatherstack.com/current?access_key=57801064d41654568bbff1098cd1d7ae&query=%s}
+      url-template: ${WEATHER_PROVIDER_1_URL_TEMPLATE:http://api.weatherstack.com/current?access_key={apiKey}&query={city}}
+      api-key: ${WEATHER_PROVIDER_1_API_KEY:}
       mapping:
         temperature: /current/temperature
         wind-speed: /current/wind_speed
     - name: openweathermap
-      url-template: ${WEATHER_PROVIDER_2_URL_TEMPLATE:https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=2326504fb9b100bee21400190e4dbe6d}
+      url-template: ${WEATHER_PROVIDER_2_URL_TEMPLATE:https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={apiKey}}
+      api-key: ${WEATHER_PROVIDER_2_API_KEY:}
       mapping:
         temperature: /main/temp
         wind-speed: /wind/speed

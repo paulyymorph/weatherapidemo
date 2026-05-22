@@ -16,6 +16,8 @@ public class ExternalWeatherServiceImpl implements WeatherService {
     private final String providerName;
     private final String urlTemplate;
 
+    private final String apiKey;
+
     private final String temperaturePointer;
 
     private final String windSpeedPointer;
@@ -25,19 +27,26 @@ public class ExternalWeatherServiceImpl implements WeatherService {
             ObjectMapper objectMapper,
             String providerName,
             String urlTemplate,
+            String apiKey,
             String temperaturePointer,
             String windSpeedPointer) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.providerName = providerName;
         this.urlTemplate = urlTemplate;
+        this.apiKey = apiKey;
         this.temperaturePointer = temperaturePointer;
         this.windSpeedPointer = windSpeedPointer;
     }
 
     private String getUrl(String city) {
         String encodedCity = URLEncoder.encode(city, StandardCharsets.UTF_8);
-        return String.format(urlTemplate, encodedCity);
+        String encodedApiKey = URLEncoder.encode(apiKey == null ? "" : apiKey, StandardCharsets.UTF_8);
+        String output = urlTemplate
+                .replace("{city}", encodedCity)
+                .replace("{apiKey}", encodedApiKey);
+        System.out.println("Constructed URL for provider " + providerName + ": " + output);
+        return output;
     }
 
     @Override
