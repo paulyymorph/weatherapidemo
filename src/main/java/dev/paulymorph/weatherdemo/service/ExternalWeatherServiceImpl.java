@@ -45,7 +45,7 @@ public class ExternalWeatherServiceImpl implements WeatherService {
         String output = urlTemplate
                 .replace("{city}", encodedCity)
                 .replace("{apiKey}", encodedApiKey);
-        System.out.println("Constructed URL for provider " + providerName + ": " + output);
+        // System.out.println("Constructed URL for provider " + providerName + ": " + output);
         return output;
     }
 
